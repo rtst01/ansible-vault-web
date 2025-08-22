@@ -33,9 +33,14 @@ class VaultService:
     def decrypt_text(self, encrypted_text: str, password: str) -> str:
         """Расшифровывает текст с помощью Ansible Vault"""
         try:
-            vault = self._create_vault(password)
+            # Создаем VaultLib с правильным паролем
+            secret = VaultSecret(password.encode('utf-8'))
+            vault = VaultLib([('default', secret)])
+            
+            # Расшифровываем текст
             decrypted_data = vault.decrypt(encrypted_text.encode('utf-8'))
             return decrypted_data.decode('utf-8')
+            
         except Exception as e:
             raise AnsibleError(f"Ошибка расшифровки текста: {str(e)}")
     
