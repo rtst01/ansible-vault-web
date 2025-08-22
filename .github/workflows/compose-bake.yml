@@ -48,14 +48,11 @@ jobs:
           files: docker-compose.yml
           push: ${{ github.event_name != 'pull_request' }}
           set: |
-            # кэш
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
-      
-            # теги по сервисам (таргетам compose): backend и frontend
             backend.tags=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/backend:${{ github.sha }}
             frontend.tags=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/frontend:${{ github.sha }}
-      
-            ${{ github.ref == 'refs/heads/main' && format('backend.tags=ghcr.io/{0}/{1}/backend:latest', github.repository_owner, github.event.repository.name) || '' }}
-            ${{ github.ref == 'refs/heads/main' && format('frontend.tags=ghcr.io/{0}/{1}/frontend:latest', github.repository_owner, github.event.repository.name) || '' }}
+            ${{ github.ref == 'refs/heads/main' && format('backend.tags=ghcr.io/{0}/{1}/backend:latest', github.repository_owner, github.event.repository_name) || '' }}
+            ${{ github.ref == 'refs/heads/main' && format('frontend.tags=ghcr.io/{0}/{1}/frontend:latest', github.repository_owner, github.event.repository_name) || '' }}
+
 
