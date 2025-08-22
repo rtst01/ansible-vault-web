@@ -18,8 +18,8 @@ RUN pip install poetry
 # Настраиваем Poetry для продакшена
 RUN poetry config virtualenvs.create false
 
-# Устанавливаем зависимости
-RUN poetry install --only=main --no-dev
+    # Устанавливаем зависимости
+    RUN poetry install --only=main --no-root
 
 # Копируем исходный код
 COPY app/ ./app/
