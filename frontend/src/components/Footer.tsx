@@ -35,11 +35,9 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-sm">
-            © 2025 Ansible Vault Web. Все права защищены.
-          </p>
-          <p className="text-gray-400 text-sm mt-2">
-            📧 <a href="mailto:rtst001@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors">
+          <p className="text-gray-300 text-base font-medium">
+            © 2025 Ansible Vault Web. Все права защищены. | 
+            📧 <a href="mailto:rtst001@gmail.com" className="text-blue-400 hover:text-blue-300 transition-colors font-semibold">
               rtst001@gmail.com
             </a>
           </p>
