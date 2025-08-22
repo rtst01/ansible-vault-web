@@ -262,18 +262,21 @@ kubectl patch service ansible-vault-backend-service \
 ### Частые проблемы
 
 1. **Поды не запускаются**
+
    ```bash
    kubectl describe pod <pod-name> -n ansible-vault
    kubectl logs <pod-name> -n ansible-vault
    ```
 
 2. **Сервис недоступен**
+
    ```bash
    kubectl get endpoints -n ansible-vault
    kubectl describe service <service-name> -n ansible-vault
    ```
 
 3. **Ingress не работает**
+
    ```bash
    kubectl get ingress -n ansible-vault
    kubectl describe ingress <ingress-name> -n ansible-vault
