@@ -23,13 +23,7 @@ const Header: React.FC = () => {
 
           {/* Навигация */}
           <nav className="header-navigation">
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="nav-link nav-link-home"
-            >
-              <span className="nav-icon">🏠</span>
-              <span className="nav-text">В начало</span>
-            </button>
+
             <a href="#features" className="nav-link">
               <span className="nav-icon">🚀</span>
               <span className="nav-text">Возможности</span>

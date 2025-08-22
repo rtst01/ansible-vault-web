@@ -1390,18 +1390,35 @@ textarea.form-input {
   transform: scale(1.2);
 }
 
-/* Специальные стили для кнопки "В начало" */
-.nav-link-home {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  border: none;
-  outline: none;
+/* Стили для заголовков секций с кнопкой "Назад" */
+.section-header-with-back {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-.nav-link-home:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
-  border-color: rgba(255, 255, 255, 0.5);
+.back-button {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.back-button:active {
+  transform: translateY(0);
 }
 
 .nav-text {

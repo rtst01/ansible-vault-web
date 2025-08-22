@@ -49,7 +49,16 @@ function App() {
         <section id="features" className="modern-section">
           <div className="container" style={{ padding: '0 1rem' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="modern-section-title">Возможности</h2>
+              <div className="section-header-with-back">
+                <h2 className="modern-section-title">Возможности</h2>
+                <button 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="back-button"
+                  title="Вернуться в начало"
+                >
+                  ← Назад
+                </button>
+              </div>
               <p className="modern-section-subtitle">
                 Мощный и безопасный сервис для шифрования текста и файлов с использованием проверенных технологий
               </p>
@@ -83,7 +92,16 @@ function App() {
         <section id="security" className="modern-section">
           <div className="container" style={{ padding: '0 1rem' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="modern-section-title">Безопасность</h2>
+              <div className="section-header-with-back">
+                <h2 className="modern-section-title">Безопасность</h2>
+                <button 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="back-button"
+                  title="Вернуться в начало"
+                >
+                  ← Назад
+                </button>
+              </div>
               <p className="modern-section-subtitle">
                 Ваши данные защищены с использованием проверенных технологий шифрования
               </p>
@@ -120,7 +138,16 @@ function App() {
         <section id="docs" className="modern-section">
           <div className="container" style={{ padding: '0 1rem' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="modern-section-title">Документация</h2>
+              <div className="section-header-with-back">
+                <h2 className="modern-section-title">Документация</h2>
+                <button 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="back-button"
+                  title="Вернуться в начало"
+                >
+                  ← Назад
+                </button>
+              </div>
               <p className="modern-section-subtitle">
                 Подробные инструкции по использованию и техническая документация API
               </p>
