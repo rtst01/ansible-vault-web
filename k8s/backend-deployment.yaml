@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ansible-vault-backend
+  namespace: ansible-vault
+  labels:
+    app: ansible-vault-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ansible-vault-backend
+  template:
+    metadata:
+      labels:
+        app: ansible-vault-backend
+    spec:
+      containers:
+      - name: backend
+        image: ansible-vault-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: ansible-vault-config
+              key: ENVIRONMENT
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: ansible-vault-config
+              key: LOG_LEVEL
+        - name: CORS_ORIGINS
+          valueFrom:
+            configMapKeyRef:
+              name: ansible-vault-config
+              key: CORS_ORIGINS
+        - name: MAX_FILE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: ansible-vault-config
+              key: MAX_FILE_SIZE
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      imagePullSecrets:
+      - name: registry-secret

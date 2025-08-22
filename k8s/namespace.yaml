@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ansible-vault
+  labels:
+    name: ansible-vault
+    app: ansible-vault-web

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ansible-vault-backend-service
+  namespace: ansible-vault
+  labels:
+    app: ansible-vault-backend
+spec:
+  selector:
+    app: ansible-vault-backend
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ansible-vault-frontend-service
+  namespace: ansible-vault
+  labels:
+    app: ansible-vault-frontend
+spec:
+  selector:
+    app: ansible-vault-frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: ClusterIP
