@@ -1390,6 +1390,17 @@ textarea.form-input {
   transform: scale(1.2);
 }
 
+/* Специальные стили для кнопки "В начало" */
+.nav-link-home {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.nav-link-home:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 .nav-text {
   position: relative;
   z-index: 1;

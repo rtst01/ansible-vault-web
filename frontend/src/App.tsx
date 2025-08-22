@@ -13,7 +13,7 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <main className="container" style={{ padding: '2rem 1rem' }}>
+      <main id="top" className="container" style={{ padding: '2rem 1rem' }}>
         {/* Tab Navigation */}
         <div className="text-center mb-8">
           <div className="modern-tab-container">

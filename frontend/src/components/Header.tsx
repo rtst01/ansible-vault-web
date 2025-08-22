@@ -23,6 +23,10 @@ const Header: React.FC = () => {
 
           {/* Навигация */}
           <nav className="header-navigation">
+            <a href="#top" className="nav-link nav-link-home">
+              <span className="nav-icon">🏠</span>
+              <span className="nav-text">В начало</span>
+            </a>
             <a href="#features" className="nav-link">
               <span className="nav-icon">🚀</span>
               <span className="nav-text">Возможности</span>
