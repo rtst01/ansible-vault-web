@@ -1,4 +1,4 @@
-name: Compose → Build & Push (Bake)
+name: Compose → Build & Push (GHCR)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  packages: write   # нужно для ghcr
 
 env:
   REGISTRY: ghcr.io
@@ -31,23 +31,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Теги формируем единообразно: latest на main + sha
       - name: Compute tags
         id: tags
+        shell: bash
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "LATEST_TAG=latest" >> $GITHUB_OUTPUT
+            echo "LATEST=latest" >> $GITHUB_OUTPUT
           fi
-          echo "SHA_TAG=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "SHA=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-      # Bake читает docker-compose.yml; через set задаем теги всем таргетам
-      - name: Build & Push by Bake
+      # BuildKit Bake читает docker-compose.yml и строит цели по сервисам.
+      # Проставим по 2 тега каждому сервису: <sha> и latest (только для main).
+      - name: Build & Push with Bake
         uses: docker/bake-action@v5
         with:
-          files: |
-            docker-compose.yml
+          files: docker-compose.yml
           push: ${{ github.event_name != 'pull_request' }}
           set: |
-            *.tags=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.REPO }}/{{.target}}:${{ steps.tags.outputs.SHA_TAG }}
-            ${{ steps.tags.outputs.LATEST_TAG && format('*.tags={0}/{1}/{2}/{{.target}}:{3}', env.REGISTRY, env.OWNER, env.REPO, steps.tags.outputs.LATEST_TAG) || '' }}
-          provenance: false
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+            *.tags=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.REPO }}/{{.target}}:${{ steps.tags.outputs.SHA }}
+            ${{ steps.tags.outputs.LATEST && format('*.tags={0}/{1}/{2}/{{.target}}:{3}', env.REGISTRY, env.OWNER, env.REPO, steps.tags.outputs.LATEST) || '' }}
