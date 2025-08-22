@@ -77,7 +77,7 @@ function App() {
                 </div>
               </div>
               <div className="section-back-button-container">
-                <button 
+                <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   className="back-button"
                   title="Вернуться в начало"
@@ -123,7 +123,7 @@ function App() {
                 </div>
               </div>
               <div className="section-back-button-container">
-                <button 
+                <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   className="back-button"
                   title="Вернуться в начало"
@@ -211,7 +211,7 @@ function App() {
                 </div>
               </div>
               <div className="section-back-button-container">
-                <button 
+                <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   className="back-button"
                   title="Вернуться в начало"
