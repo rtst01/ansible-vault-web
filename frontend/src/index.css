@@ -1295,14 +1295,15 @@ textarea.form-input {
   }
 }
 
-.lock-icon {
-  font-size: 1.5rem;
+.vault-icon {
+  width: 1.5rem;
+  height: 1.5rem;
   color: white;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  animation: lockPulse 3s ease-in-out infinite;
+  animation: vaultPulse 3s ease-in-out infinite;
 }
 
-@keyframes lockPulse {
+@keyframes vaultPulse {
 
   0%,
   100% {

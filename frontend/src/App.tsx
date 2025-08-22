@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import EncryptionForm from './components/EncryptionForm';
 import FileUpload from './components/FileUpload';
+import Footer from './components/Footer';
 import './index.css';
 
 type TabType = 'text-tab' | 'file-tab';
@@ -82,7 +83,7 @@ function App() {
                   className="back-button"
                   title="Вернуться в начало"
                 >
-                  ← Назад в начало
+                  В начало
                 </button>
               </div>
             </div>
@@ -128,7 +129,7 @@ function App() {
                   className="back-button"
                   title="Вернуться в начало"
                 >
-                  ← Назад в начало
+                  В начало
                 </button>
               </div>
             </div>
@@ -216,7 +217,7 @@ function App() {
                   className="back-button"
                   title="Вернуться в начало"
                 >
-                  ← Назад в начало
+                  В начало
                 </button>
               </div>
             </div>
@@ -224,7 +225,7 @@ function App() {
         </section>
       </main>
 
-      {/* Footer is removed as per the edit hint */}
+      <Footer />
     </div>
   );
 }
