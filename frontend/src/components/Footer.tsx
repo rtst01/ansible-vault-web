@@ -36,7 +36,16 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-300 text-base font-medium">
-            📧 <a href="mailto:rtst001@gmail.com" className="text-cyan-300 hover:text-cyan-200 font-semibold underline decoration-cyan-400/50 hover:decoration-cyan-300/70 transition-all duration-200">
+            📧 <a
+              href="mailto:rtst001@gmail.com"
+              className="text-cyan-300 hover:text-cyan-200 font-semibold underline decoration-cyan-400/50 hover:decoration-cyan-300/70 transition-all duration-200"
+              style={{
+                color: '#67e8f9',
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(103, 232, 249, 0.5)',
+                textDecorationThickness: '2px'
+              }}
+            >
               rtst001@gmail.com
             </a>
           </p>
