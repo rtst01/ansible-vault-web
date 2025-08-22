@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { getApiUrl, API_ENDPOINTS } from '../config';
 
 interface FileResult {
   filename: string;
@@ -44,11 +45,11 @@ const FileUpload: React.FC = () => {
       formData.append('file', selectedFile);
       formData.append('password', password);
 
-      const endpoint = mode === 'encrypt'
-        ? '/api/v1/encrypt/file'
-        : '/api/v1/decrypt/file';
+              const endpoint = mode === 'encrypt'
+          ? API_ENDPOINTS.ENCRYPT_FILE
+          : API_ENDPOINTS.DECRYPT_FILE;
 
-      const response = await fetch(`http://localhost:8000${endpoint}`, {
+              const response = await fetch(getApiUrl(endpoint), {
         method: 'POST',
         body: formData,
       });

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '../config';
 
 interface Template {
   id: string;
@@ -188,14 +189,14 @@ JWT_SECRET=your-super-secret-jwt-key`
 
     try {
       const endpoint = mode === 'encrypt'
-        ? '/api/v1/encrypt/text'
-        : '/api/v1/decrypt/text';
+        ? API_ENDPOINTS.ENCRYPT_TEXT
+        : API_ENDPOINTS.DECRYPT_TEXT;
 
       const payload = mode === 'encrypt'
         ? { text, password, algorithm: 'ansible-vault' }
         : { encrypted_text: text, password };
 
-      const response = await fetch(`http://localhost:8000${endpoint}`, {
+      const response = await fetch(getApiUrl(endpoint), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

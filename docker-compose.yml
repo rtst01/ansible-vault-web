@@ -24,6 +24,9 @@ services:
     container_name: ansible-vault-frontend
     ports:
       - "80:80"
+    environment:
+      - REACT_APP_DOCKER=true
+      - NODE_ENV=production
     depends_on:
       - backend
     restart: unless-stopped
