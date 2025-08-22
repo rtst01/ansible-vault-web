@@ -1,8 +1,13 @@
-# version: '3.8' # Устарело в новых версиях Docker Compose
+version: "3.9"
 
 services:
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile        # если другой — поправь
+      # platforms можно указать здесь, если собираешь локально buildx bake
+      # platforms: ["linux/amd64"]
+    image: ghcr.io/rtst01/ansible-vault-web/backend
     container_name: ansible-vault-backend
     ports:
       - "8000:8000"
@@ -20,7 +25,11 @@ services:
       retries: 3
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile         # если другой — поправь
+      # platforms: ["linux/amd64"]
+    image: ghcr.io/rtst01/ansible-vault-web/frontend
     container_name: ansible-vault-frontend
     ports:
       - "80:80"
@@ -35,18 +44,3 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-
-# Redis закомментирован - не используется в текущей версии
-# Для будущего использования (кэширование, сессии):
-#  redis:
-#    image: redis:7-alpine
-#    container_name: ansible-vault-redis
-#    ports:
-#      - "6379:6379"
-#    volumes:
-#      - redis_data:/data
-#    restart: unless-stopped
-#    command: redis-server --appendonly yes
-
-# volumes:
-#   redis_data:
