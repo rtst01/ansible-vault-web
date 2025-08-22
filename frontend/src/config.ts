@@ -1,11 +1,7 @@
 // Конфигурация API endpoints
 const getApiBaseUrl = (): string => {
-  // В Docker контейнере используем имя сервиса backend
-  if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_DOCKER === 'true') {
-    return 'http://backend:8000';
-  }
-  
-  // В development используем localhost
+  // Всегда используем localhost для браузера
+  // Docker контейнеры общаются через порты, а не имена сервисов
   return 'http://localhost:8000';
 };
 
