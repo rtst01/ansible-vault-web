@@ -364,8 +364,12 @@ JWT_SECRET=your-super-secret-jwt-key`
         <div className="modern-card">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-              <span className="template-status-indicator"></span>
-              📋 Шаблоны
+              <div className="template-icon-container">
+                <svg className="template-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                </svg>
+              </div>
+              Шаблоны
             </h3>
             <button
               onClick={() => setShowTemplates(!showTemplates)}
