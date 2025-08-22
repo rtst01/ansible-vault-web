@@ -1,0 +1,21 @@
+[project]
+name = "ansible-vault-web"
+version = "0.1.0"
+description = "Web service for encryption/decryption with Ansible Vault"
+authors = [
+    {name = "Developer"}
+]
+readme = "README.md"
+requires-python = "^3.11"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "uvicorn[standard] (>=0.35.0,<0.36.0)",
+    "python-multipart (>=0.0.20,<0.0.21)",
+    "cryptography (>=45.0.6,<46.0.0)",
+    "ansible (>=11.9.0,<12.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
