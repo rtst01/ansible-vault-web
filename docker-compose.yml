@@ -33,16 +33,17 @@ services:
       timeout: 10s
       retries: 3
 
-  # Redis для кэширования (опционально)
-  redis:
-    image: redis:7-alpine
-    container_name: ansible-vault-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
-    command: redis-server --appendonly yes
+# Redis закомментирован - не используется в текущей версии
+# Для будущего использования (кэширование, сессии):
+#  redis:
+#    image: redis:7-alpine
+#    container_name: ansible-vault-redis
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+#    restart: unless-stopped
+#    command: redis-server --appendonly yes
 
-volumes:
-  redis_data:
+# volumes:
+#   redis_data:
