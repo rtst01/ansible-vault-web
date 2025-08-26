@@ -11,7 +11,12 @@
 **ID**: `ansible-vault-web-service`  
 **Тип**: Level 3 (Feature) - Web Service для шифрования/расшифровки с Ansible Vault  
 **Статус**: ✅ **ПОЛНОСТЬЮ ЗАВЕРШЕНО И АРХИВИРОВАНО**  
-**Архив**: `memory-bank/archive/archive-ansible-vault-web-service.md`
+**Основной архив**: `memory-bank/archive/archive-ansible-vault-web-service.md`
+
+**Дополнительное исправление**: `docker-connection-fix-ansible-vault`  
+**Тип**: Level 1 (Bug Fix) - Docker Infrastructure  
+**Статус**: ✅ **ЗАВЕРШЕНО И АРХИВИРОВАНО**  
+**Архив**: `memory-bank/archive/archive-docker-connection-fix.md`
 
 ## 🎯 **Готов к новой задаче**
 

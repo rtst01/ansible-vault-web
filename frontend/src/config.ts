@@ -1,8 +1,11 @@
 // Конфигурация API endpoints
 const getApiBaseUrl = (): string => {
-  // Всегда используем localhost для браузера
-  // Docker контейнеры общаются через порты, а не имена сервисов
-  return 'http://localhost:8000';
+  // В Docker используем относительные пути - nginx проксирует на backend
+  // В development режиме используем localhost
+  if (process.env.NODE_ENV === 'development' && !process.env.REACT_APP_DOCKER) {
+    return 'http://localhost:8000';
+  }
+  return ''; // Относительные пути для production в Docker
 };
 
 export const API_BASE_URL = getApiBaseUrl();
