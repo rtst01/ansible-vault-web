@@ -34,6 +34,44 @@ Frontend: nginx отдает SPA на `/`.
 
 Оба контейнера имеют healthcheck в docker-compose.yml.
 
+## Сборка образов и push в registry
+
+Для деплоя в k8s нужно собрать образы и залить в свой container registry.
+
+```bash
+# Переменные
+REGISTRY=registry.mycompany.com   # или ghcr.io/username, docker.io/username
+TAG=v1.0.0
+
+# Backend
+docker build -t $REGISTRY/ansible-vault-backend:$TAG .
+docker push $REGISTRY/ansible-vault-backend:$TAG
+
+# Frontend
+docker build -t $REGISTRY/ansible-vault-frontend:$TAG ./frontend
+docker push $REGISTRY/ansible-vault-frontend:$TAG
+```
+
+Если registry приватный, создайте secret в k8s:
+
+```bash
+kubectl create secret docker-registry registry-secret \
+  --docker-server=$REGISTRY \
+  --docker-username=USER \
+  --docker-password=PASSWORD
+```
+
+И укажите при установке helm:
+
+```bash
+helm install vault ./helm/ansible-vault \
+  --set backend.image.repository=$REGISTRY/ansible-vault-backend \
+  --set backend.image.tag=$TAG \
+  --set frontend.image.repository=$REGISTRY/ansible-vault-frontend \
+  --set frontend.image.tag=$TAG \
+  --set imagePullSecrets[0].name=registry-secret
+```
+
 ## Kubernetes (Helm)
 
 В `helm/ansible-vault/` лежит Helm-чарт. Установка:
