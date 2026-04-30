@@ -1,0 +1,12 @@
+Ansible Vault Web deployed.
+
+{{- if .Values.ingress.enabled }}
+URL: {{ if .Values.ingress.tls.enabled }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
+{{- else }}
+Port-forward to access:
+  kubectl port-forward svc/{{ include "av.frontendName" . }} 8080:80
+  open http://localhost:8080
+{{- end }}
+
+Backend: {{ include "av.backendName" . }}:8000 (ClusterIP)
+Frontend: {{ include "av.frontendName" . }}:80 (ClusterIP)

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: ansible-vault
+description: Web UI for Ansible Vault encryption/decryption
+version: 1.0.0
+appVersion: "1.0.0"
+type: application
+keywords:
+  - ansible
+  - vault
+  - encryption

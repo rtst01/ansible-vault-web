@@ -34,22 +34,51 @@ Frontend: nginx отдает SPA на `/`.
 
 Оба контейнера имеют healthcheck в docker-compose.yml.
 
-## Kubernetes
+## Kubernetes (Helm)
 
-В `k8s/` лежат готовые манифесты:
+В `helm/ansible-vault/` лежит Helm-чарт. Установка:
 
 ```bash
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/configmap.yaml
-kubectl apply -f k8s/secret.yaml
-kubectl apply -f k8s/backend-deployment.yaml
-kubectl apply -f k8s/frontend-deployment.yaml
-kubectl apply -f k8s/services.yaml
-kubectl apply -f k8s/ingress.yaml
+helm install vault ./helm/ansible-vault \
+  --set ingress.host=vault.mycompany.com \
+  --set backend.image.repository=registry.mycompany.com/ansible-vault-backend \
+  --set frontend.image.repository=registry.mycompany.com/ansible-vault-frontend
 ```
 
-Перед деплоем обновите `k8s/secret.yaml` и `k8s/configmap.yaml` под свое окружение.
-Для ingress нужен nginx-ingress-controller.
+Без TLS:
+```bash
+helm install vault ./helm/ansible-vault \
+  --set ingress.host=vault.local \
+  --set ingress.tls.enabled=false
+```
+
+Обновление:
+```bash
+helm upgrade vault ./helm/ansible-vault --set backend.image.tag=v1.1.0
+```
+
+Основные параметры (`values.yaml`):
+
+| Параметр | По умолчанию | Описание |
+|---|---|---|
+| `backend.replicas` | 2 | Реплики backend |
+| `frontend.replicas` | 2 | Реплики frontend |
+| `ingress.host` | `ansible-vault.example.com` | Домен |
+| `ingress.tls.enabled` | true | TLS через cert-manager |
+| `ingress.tls.clusterIssuer` | `letsencrypt-prod` | ClusterIssuer |
+| `backend.env.LOG_LEVEL` | WARNING | Уровень логов |
+
+CORS `ALLOWED_ORIGINS` генерируется автоматически из `ingress.host`.
+
+### Без Helm (plain manifests)
+
+Старые манифесты остались в `k8s/`:
+
+```bash
+kubectl apply -f k8s/
+```
+
+Но Helm удобнее — параметризация, upgrade, rollback.
 
 ## Конфигурация
 

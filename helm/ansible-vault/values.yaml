@@ -1,0 +1,48 @@
+# Backend (FastAPI + ansible-vault)
+backend:
+  image:
+    repository: ansible-vault-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 2
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    ENVIRONMENT: production
+    LOG_LEVEL: WARNING
+    ALLOWED_ORIGINS: ""  # auto-generated from ingress.host if empty
+
+# Frontend (nginx + React SPA)
+frontend:
+  image:
+    repository: ansible-vault-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+# Ingress
+ingress:
+  enabled: true
+  className: nginx
+  host: ansible-vault.example.com
+  tls:
+    enabled: true
+    secretName: ansible-vault-tls
+    clusterIssuer: letsencrypt-prod
+  annotations: {}
+
+# Image pull secrets (e.g. for private registry)
+imagePullSecrets: []
+# - name: registry-secret
