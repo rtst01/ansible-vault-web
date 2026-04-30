@@ -1,32 +1,35 @@
-# Этап сборки
+# Build stage
 FROM node:18-alpine AS build
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости (включая devDependencies для сборки)
 RUN npm ci
 
-# Копируем исходный код
 COPY . .
 
-# Собираем приложение
 RUN npm run build
 
-# Этап продакшена
+# Production stage
 FROM nginx:alpine
 
-# Копируем собранное приложение
+# Remove default config
+RUN rm /etc/nginx/conf.d/default.conf 2>/dev/null || true
+
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Копируем конфигурацию nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Открываем порт
+# Ensure nginx can write to necessary directories as non-root
+RUN chown -R nginx:nginx /usr/share/nginx/html \
+    && chown -R nginx:nginx /var/cache/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && touch /var/run/nginx.pid \
+    && chown nginx:nginx /var/run/nginx.pid
+
+USER nginx
+
 EXPOSE 80
 
-# Запускаем nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,68 +1,72 @@
 import os
 import hashlib
 import re
-from typing import Tuple, Optional
-from fastapi import HTTPException, UploadFile
+from typing import Tuple
+from fastapi import UploadFile
+
 
 class SecurityValidator:
-    """Валидатор безопасности для файлов и паролей"""
-    
-    # Максимальный размер файла (10MB)
-    MAX_FILE_SIZE = 10 * 1024 * 1024
-    
-    # Разрешенные типы файлов
+    """Security validator for files and passwords."""
+
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+    MAX_PASSWORD_LENGTH = 128
+
     ALLOWED_EXTENSIONS = {
-        '.txt', '.md', '.py', '.js', '.ts', '.html', '.css', '.json', '.xml',
-        '.yml', '.yaml', '.ini', '.cfg', '.conf', '.log', '.csv', '.sql'
+        '.txt', '.md', '.json', '.xml',
+        '.yml', '.yaml', '.ini', '.cfg', '.conf', '.csv',
     }
-    
+
     @staticmethod
     def validate_password(password: str) -> Tuple[bool, str]:
-        """Валидирует пароль"""
-        if len(password) < 8:
-            return False, "Пароль должен содержать минимум 8 символов"
-        
+        if not password or len(password) < 8:
+            return False, "Password must be at least 8 characters"
+
+        if len(password) > SecurityValidator.MAX_PASSWORD_LENGTH:
+            return False, f"Password must not exceed {SecurityValidator.MAX_PASSWORD_LENGTH} characters"
+
         if not re.search(r'[A-Z]', password):
-            return False, "Пароль должен содержать хотя бы одну заглавную букву"
-        
+            return False, "Password must contain at least one uppercase letter"
+
         if not re.search(r'[a-z]', password):
-            return False, "Пароль должен содержать хотя бы одну строчную букву"
-        
+            return False, "Password must contain at least one lowercase letter"
+
         if not re.search(r'\d', password):
-            return False, "Пароль должен содержать хотя бы одну цифру"
-        
-        return True, "Пароль валиден"
-    
+            return False, "Password must contain at least one digit"
+
+        return True, "Password is valid"
+
     @staticmethod
     def validate_file(file: UploadFile) -> Tuple[bool, str]:
-        """Валидирует загружаемый файл"""
-        # Проверяем размер файла
         if file.size and file.size > SecurityValidator.MAX_FILE_SIZE:
-            return False, f"Размер файла превышает {SecurityValidator.MAX_FILE_SIZE // (1024*1024)}MB"
-        
-        # Проверяем расширение файла
+            return False, f"File size exceeds {SecurityValidator.MAX_FILE_SIZE // (1024 * 1024)}MB limit"
+
         if file.filename:
             file_ext = os.path.splitext(file.filename)[1].lower()
-            if file_ext not in SecurityValidator.ALLOWED_EXTENSIONS:
-                return False, f"Неподдерживаемый тип файла: {file_ext}"
-        
-        return True, "Файл валиден"
-    
+            if file_ext and file_ext not in SecurityValidator.ALLOWED_EXTENSIONS:
+                return False, f"Unsupported file type: {file_ext}"
+
+        return True, "File is valid"
+
     @staticmethod
     def sanitize_filename(filename: str) -> str:
-        """Очищает имя файла от потенциально опасных символов"""
-        # Убираем опасные символы
-        sanitized = re.sub(r'[<>:"/\\|?*]', '_', filename)
-        # Ограничиваем длину
+        """Sanitize filename - remove path traversal and dangerous characters."""
+        # Take only the basename to prevent path traversal
+        filename = os.path.basename(filename)
+        # Remove dangerous characters
+        sanitized = re.sub(r'[<>:"/\\|?*\x00-\x1f]', '_', filename)
+        # Remove leading dots (hidden files)
+        sanitized = sanitized.lstrip('.')
+        if not sanitized:
+            sanitized = "upload"
+        # Limit length
         if len(sanitized) > 100:
             name, ext = os.path.splitext(sanitized)
-            sanitized = name[:100-len(ext)] + ext
+            sanitized = name[:100 - len(ext)] + ext
         return sanitized
-    
+
     @staticmethod
     def generate_file_hash(content: bytes) -> str:
-        """Генерирует хеш файла для проверки целостности"""
         return hashlib.sha256(content).hexdigest()
 
-# Создаем глобальный экземпляр валидатора
+
 security_validator = SecurityValidator()

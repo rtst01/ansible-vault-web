@@ -59,9 +59,10 @@ const FileUpload: React.FC = () => {
         const contentDisposition = response.headers.get('content-disposition');
         let filename = selectedFile.name;
         if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+          const filenameMatch = contentDisposition.match(/filename="(.+?)"/);
           if (filenameMatch) {
-            filename = filenameMatch[1];
+            // Sanitize: remove path separators
+            filename = filenameMatch[1].replace(/[/\\]/g, '_').substring(0, 255);
           }
         }
 

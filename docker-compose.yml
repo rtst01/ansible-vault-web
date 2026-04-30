@@ -1,19 +1,16 @@
-# version: '3.8' # Устарело в новых версиях Docker Compose
-
 services:
   backend:
     build: .
     container_name: ansible-vault-backend
-    # Порт не пробрасывается наружу - доступ только через nginx proxy
     environment:
-      - ENVIRONMENT=development
-      - LOG_LEVEL=INFO
+      - ENVIRONMENT=production
+      - LOG_LEVEL=WARNING
+      - ALLOWED_ORIGINS=http://localhost,http://localhost:80
     volumes:
-      - ./app:/app/app
       - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -23,30 +20,11 @@ services:
     container_name: ansible-vault-frontend
     ports:
       - "80:80"
-    environment:
-      - REACT_APP_DOCKER=true
-      - NODE_ENV=production
-      - REACT_APP_API_URL=
     depends_on:
       - backend
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3
-
-# Redis закомментирован - не используется в текущей версии
-# Для будущего использования (кэширование, сессии):
-#  redis:
-#    image: redis:7-alpine
-#    container_name: ansible-vault-redis
-#    ports:
-#      - "6379:6379"
-#    volumes:
-#      - redis_data:/data
-#    restart: unless-stopped
-#    command: redis-server --appendonly yes
-
-# volumes:
-#   redis_data:
